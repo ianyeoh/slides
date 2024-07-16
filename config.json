@@ -1,0 +1,4 @@
+{
+    "BACKEND_URL": "http://api.slides.ianyeoh.com",
+    "BACKEND_PORT": 80
+}

@@ -1,0 +1,291 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "1.0.0",
+        "title": "Presto CRUD Server",
+        "description": "Server that powers the Presto frontend",
+        "license": {
+            "name": "MIT",
+            "url": "https://opensource.org/licenses/MIT"
+        }
+    },
+    "tags": [
+        {
+            "name": "Admin Auth",
+            "description": "Managing admin authentication and authorisation"
+        },
+        {
+            "name": "Data Store Management",
+            "description": "Managing the data store for a particular user"
+        }
+    ],
+    "schemes": [
+        "http"
+    ],
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "components": {
+        "securitySchemes": {
+            "bearerAuth": {
+              "type": "http",
+              "scheme": "bearer",
+              "bearerFormat": "JWT"
+            }
+        },
+        "schemas": {
+            "AuthToken": {
+                "type": "object",
+                "properties": {
+                    "token": {
+                        "type": "string",
+                        "description": "Authorization Bearer Token"
+                    }
+                }
+            }
+        },
+        "fields": {
+            "Email": {
+                "type": "string",
+                "example": "hayden@unsw.edu.au",
+                "description": "Email address of the admin attempting to login"
+            },
+            "Password": {
+                "type": "string",
+                "description": "Password of the admin attempting to login",
+                "example": "adummypassword"
+            },
+            "Admin": {
+                "type": "string",
+                "description": "Name (single or full name) of the admin registering",
+                "example": "Harry Jenkins"
+            },
+            "Store": {
+                "type": "object",
+                "properties": {
+                    "ALL": {
+                        "type": "string",
+                        "example": "THE"
+                    },
+                    "DATA": {
+                        "type": "string",
+                        "example": "HERE IN CAPS"
+                    },
+                    "CAN BE": {
+                        "type": "number",
+                        "example": 100000
+                    },
+                    "DIFFERENT": {
+                        "type": "object",
+                        "example": {
+                            "THINGS.": "IT CAN",
+                            "LITERALLY": "BE",
+                            "ANYTHING": {
+                                "YOU": "WANT",
+                                "IT": "TO BE",
+                                "AND": {
+                                    "AS": "NESTED",
+                                    "AS YOU": "WOULD LIKE!"
+                                }
+                            }
+                        }
+                    },
+                    "THIS WILL BE": {
+                        "type": "array",
+                        "example": [
+                            "PERSONAL",
+                            "TO",
+                            "YOUR",
+                            "OWN",
+                            "WORK"
+                        ]
+                    }
+                }
+            }
+        },
+        "parameters": {
+            "AuthRegisterBody": {
+                "name": "Register info",
+                "in": "body",
+                "schema": {
+                    "type": "object",
+                    "properties": {
+                        "email": {
+                            "$ref": "#/components/fields/Email"
+                        },
+                        "password": {
+                            "$ref": "#/components/fields/Password"
+                        },
+                        "name": {
+                            "$ref": "#/components/fields/Admin"
+                        }
+                    }
+                }
+            },
+            "AuthLoginBody": {
+                "name": "Login info",
+                "in": "body",
+                "schema": {
+                    "type": "object",
+                    "properties": {
+                        "email": {
+                            "$ref": "#/components/fields/Email"
+                        },
+                        "password": {
+                            "$ref": "#/components/fields/Password"
+                        }
+                    }
+                }
+            },
+            "Authorization": {
+                "name": "Authorization",
+                "in": "header",
+                "schema": {
+                    "type": "string",
+                    "example": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImhheWRlbkB1bnN3LmVkdS5hdSIsImlhdCI6MTYwMzk0MzIzMH0.b37PfwlcH_cue6yhgvDt2IiNvhRACf79hTNtacYB94Q"
+                },
+                "required": true,
+                "description": "Bearer [token]"
+            },
+            "Store": {
+                "name": "Data store object",
+                "in": "body",
+                "description": "The store key in this example can be any type of object you want. Whatever you pass in as a value to the store key will then be returned when you call GET /store (for that particular user)",
+                "schema": {
+                    "type": "object",
+                    "properties": {
+                        "store": {
+                            "$ref": "#/components/fields/Store"
+                        }
+                    }
+                }
+            }
+        },
+        "responses": {
+            "200": {
+                "Token": {
+                    "description": "OK",
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "token": {
+                                "type": "string",
+                                "description": "JWT Token to provide authorisation",
+                                "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImhheWRlbkB1bnN3LmVkdS5hdSIsImlhdCI6MTYwMzk0MzIzMH0.b37PfwlcH_cue6yhgvDt2IiNvhRACf79hTNtacYB94Q"
+                            }
+                        }
+                    }
+                },
+                "Empty": {
+                    "description": "OK",
+                    "schema": {
+                        "type": "object",
+                        "properties": {}
+                    }
+                },
+                "Store": {
+                    "description": "OK. In this example, by default the store key will return an empty object. Once you set the data store with PUT /store what you get from the store key will be that. (for that particular user)",
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "store": {
+                                "$ref": "#/components/fields/Store"
+                            }
+                        }
+                    }
+                }
+            },
+            "400": {
+                "description": "Bad Input",
+                "schema": {
+                    "type": "object",
+                    "properties": {
+                        "error": {
+                            "type": "string",
+                            "description": "Error message returned from server",
+                            "example": "Invalid input"
+                        }
+                    }
+                }
+            },
+            "403": {
+                "description": "Forbidden",
+                "schema": {
+                    "type": "object",
+                    "properties": {
+                        "error": {
+                            "type": "string",
+                            "description": "Error message returned from server",
+                            "example": "Invalid Token"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "paths": {
+        "/admin/auth/register": {
+            "post": {
+                "summary": "Send registration request for someone to join Presto",
+                "tags": [ "Admin Auth" ],
+                "parameters": [ { "$ref": "#/components/parameters/AuthRegisterBody" } ],
+                "responses": {
+                    "200": { "$ref": "#/components/responses/200/Token" },
+                    "400": { "$ref": "#/components/responses/400" }
+                }
+            }
+        },
+        "/admin/auth/login": {
+            "post": {
+                "summary": "Given correct credentials, return an authorised access token to make subsequent API calls",
+                "tags": [ "Admin Auth" ],
+                "parameters": [ { "$ref": "#/components/parameters/AuthLoginBody" } ],
+                "responses": {
+                    "200": { "$ref": "#/components/responses/200/Token" },
+                    "400": { "$ref": "#/components/responses/400" }
+                }
+            }
+        },
+        "/admin/auth/logout": {
+            "post": {
+                "summary": "Invalid a particular authorised token",
+                "security": [{ "bearerAuth": [] }],
+                "tags": [ "Admin Auth" ],
+                "parameters": [ { "$ref": "#/components/parameters/Authorization" } ],
+                "responses": {
+                    "200": { "$ref": "#/components/responses/200/Empty" },
+                    "403": { "$ref": "#/components/responses/403" }
+                }
+            }
+        },
+        "/store": {
+            "get": {
+                "summary": "Read the data store for a particular user",
+                "security": [{ "bearerAuth": [] }],
+                "tags": [ "Data Store Management" ],
+                "parameters": [ { "$ref": "#/components/parameters/Authorization" } ],
+                "responses": {
+                    "200": { "$ref": "#/components/responses/200/Store" },
+                    "403": { "$ref": "#/components/responses/403" }
+                }
+            },
+            "put": {
+                "summary": "Set the data store for a particular user",
+                "security": [{ "bearerAuth": [] }],
+                "tags": [ "Data Store Management" ],
+                "parameters": [
+                    {"$ref": "#/components/parameters/Authorization" },
+                    {"$ref": "#/components/parameters/Store" }
+                ],
+                "responses": {
+                    "200": { "$ref": "#/components/responses/200/Empty" },
+                    "400": { "$ref": "#/components/responses/400" },
+                    "403": { "$ref": "#/components/responses/403" }
+                }
+            }
+        }
+    }
+}

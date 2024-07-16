@@ -1,0 +1,11 @@
+services: 
+  webserver:
+    build: ./frontend
+    ports: 
+      - 80:80
+    depends_on:
+      - slides-backend
+  slides-backend:
+    build: ./backend
+    ports:
+      - 8000:5000

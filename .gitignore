@@ -1,0 +1,5 @@
+node_modules
+database.json
+frontend/cypress/e2e/1-getting-started/*
+frontend/cypress/e2e/2-advanced-examples/*
+.DS_Store
