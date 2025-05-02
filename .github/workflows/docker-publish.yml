@@ -37,9 +37,9 @@ jobs:
       matrix:
         include:
           - dockerfile: ./backend/Dockerfile
-            image: ghcr.io/username/backend
+            image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/backend
           - dockerfile: ./frontend/Dockerfile
-            image: ghcr.io/username/frontend
+            image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/frontend
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -74,7 +74,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@96383f45573cb7f253c731d3b3ab81c87ef81934 # v5.0.0
         with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          images: ${{ matrix.image }}
 
       # Build and push Docker image with Buildx (don't push on PR)
       # https://github.com/docker/build-push-action
@@ -83,6 +83,7 @@ jobs:
         uses: docker/build-push-action@0565240e2d4ab88bba5387d719585280857ece09 # v5.0.0
         with:
           context: .
+          file: ${{ matrix.dockerfile }}
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
