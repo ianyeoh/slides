@@ -38,9 +38,9 @@ jobs:
       matrix:
         include:
           - dockerfile: ./backend/Dockerfile
-            image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/backend
+            image: ianyeoh/slides/backend
           - dockerfile: ./frontend/Dockerfile
-            image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/frontend
+            image: ianyeoh/slides/frontend
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
