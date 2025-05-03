@@ -58,5 +58,4 @@ jobs:
               with:
                   source: .
                   workdir: .
-                  push: 
                   files: docker-compose.yml
