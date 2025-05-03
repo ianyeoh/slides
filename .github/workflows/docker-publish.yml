@@ -54,4 +54,6 @@ jobs:
               uses: docker/bake-action@v6
               with:
                   source: .
+                  workdir: .
+                  
                   push: ${{ github.event_name != 'pull_request' }}

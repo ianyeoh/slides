@@ -1,6 +1,7 @@
 FROM node:latest
 
-COPY . .
+WORKDIR /backend
+COPY /backend /backend
 RUN npm install
 ENV NODE_ENV=production
 ENV NODE_PORT=5000
