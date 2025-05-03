@@ -55,5 +55,6 @@ jobs:
               with:
                   source: .
                   workdir: .
-                  
+                  files:
+                    - ./docker-compose.yml
                   push: ${{ github.event_name != 'pull_request' }}
