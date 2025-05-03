@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from "axios";
-import config from "@/../../config.json";
+import config from "@/../config.json";
 
 export const backendURL = `${config.BACKEND_URL}:${config.BACKEND_PORT}`;
 const backend = axios.create({

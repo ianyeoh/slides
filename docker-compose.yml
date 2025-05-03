@@ -1,11 +1,13 @@
 services: 
-  webserver:
+  webserver: 
     build: ./frontend
     ports: 
       - 80:80
     depends_on:
       - slides-backend
-  slides-backend:
+    tags: ianyeoh/slides-frontend:latest
+  backend:
     build: ./backend
     ports:
       - 8000:5000
+    tags: ianyeoh/slides-backend:latest
