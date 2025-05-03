@@ -3,7 +3,7 @@ services:
     build: 
       dockerfile: ./frontend/Dockerfile
       tags: 
-        - ianyeoh/slides-frontend:latest
+        - ghcr.io/ianyeoh/slides-frontend:latest
     ports: 
       - 80:80
     depends_on:
@@ -12,7 +12,7 @@ services:
     build: 
       dockerfile: ./backend/Dockerfile
       tags: 
-        - ianyeoh/slides-backend:latest
+        - ghcr.io/ianyeoh/slides-backend:latest
     ports:
       - 8000:5000
   
