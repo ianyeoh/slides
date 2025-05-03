@@ -1,8 +1,8 @@
 FROM node:latest
-COPY . /backend
-WORKDIR /backend
-RUN npm install
 
+WORKDIR /backend
+COPY /backend /backend
+RUN npm install
 ENV NODE_ENV=production
 ENV NODE_PORT=5000
 EXPOSE 5000
