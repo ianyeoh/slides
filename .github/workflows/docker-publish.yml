@@ -32,6 +32,9 @@ jobs:
             # with sigstore/fulcio when running outside of PRs.
             id-token: write
         steps:
+            - name: Checkout repository
+              uses: actions/checkout@v4
+
             # Set up BuildKit Docker container builder to be able to build
             # multi-platform images and export cache
             # https://github.com/docker/setup-buildx-action
@@ -56,4 +59,4 @@ jobs:
                   source: .
                   workdir: .
                   push: ${{ github.event_name != 'pull_request' }}
-                  files: ./docker-compose.yml
+                  files: docker-compose.yml
