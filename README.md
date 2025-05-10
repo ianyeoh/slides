@@ -9,7 +9,7 @@ If prompted to register, feel free to enter a junk email (they aren't validated 
 
 **Requirements:** [Docker](https://www.docker.com/)
 
-To run as a single-host deployment, download or copy docker.compose.yml from the root of this repository. Then in the same working directory as the Compose file, run: 
+To run as a single-host deployment, clone this repository. Then in the same working directory as the Compose file, run: 
 
 ```
 docker compose up
